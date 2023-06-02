@@ -5,8 +5,8 @@ import React from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
 const Map = ({ height }) => {
-  const topRight = latLng(-29.920002, -53.172543)
-  const bottomLeft = latLng(-34.934762, -58.398550)
+  const topRight = latLng(-29.520002, -52.172543)
+  const bottomLeft = latLng(-35.3, -59)
   const bounds = latLngBounds(topRight, bottomLeft)
   return (
     <MapContainer
