@@ -3,10 +3,11 @@ import { latLngBounds } from 'leaflet'
 import { latLng } from 'leaflet'
 import React from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
-const topRight = latLng(-29.920002, -53.172543)
-const bottomLeft = latLng(-34.934762, -58.398550)
-const bounds = latLngBounds(topRight, bottomLeft)
+
 const Map = ({ height }) => {
+  const topRight = latLng(-29.920002, -53.172543)
+  const bottomLeft = latLng(-34.934762, -58.398550)
+  const bounds = latLngBounds(topRight, bottomLeft)
   return (
     <MapContainer
       center={[-32.694260, -57.071565]}
