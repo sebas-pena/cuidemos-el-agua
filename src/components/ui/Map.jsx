@@ -2,8 +2,8 @@
 import { latLngBounds } from 'leaflet'
 import { latLng } from 'leaflet'
 import React from 'react'
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
-
+import { MapContainer, Marker, Popup, TileLayer, GeoJSON } from 'react-leaflet'
+import argentinaBrazil from '../../geojson/argentina-brazil.json'
 const Map = ({ height }) => {
   const topRight = latLng(-29.520002, -52.172543)
   const bottomLeft = latLng(-35.3, -59)
@@ -26,6 +26,10 @@ const Map = ({ height }) => {
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
       </Marker>
+      <GeoJSON data={argentinaBrazil} style={{
+        color: '#406099',
+        fillOpacity: 0.8,
+      }} />
     </MapContainer >
   )
 }
