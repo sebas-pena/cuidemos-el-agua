@@ -1,5 +1,6 @@
 import localFont from '@next/font/local'
 import Header from '@/components/layout/Header'
+import ReduxProvider from '@/store/Provider'
 import './globals.css'
 import 'leaflet/dist/leaflet.css'
 
@@ -27,7 +28,9 @@ export default function RootLayout({ children }) {
       </head>
       <body className={coolvetica.variable + " flex flex-col min-w-screen min-h-screen"}>
         <Header />
-        {children}
+        <ReduxProvider>
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   )
