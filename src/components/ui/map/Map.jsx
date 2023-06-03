@@ -65,7 +65,7 @@ const Map = ({ height, showPointer }) => {
       {
         showCrosshairText && (
 
-          <p className={`${showPointer ? 'block' : 'hidden'} animate-fade-in absolute bottom-10 font-semibold text-xl text-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[1000] bg-black py-2 px-4 rounded-lg bg-opacity-70 select-none`}>
+          <p className={`${showPointer ? 'block' : 'hidden'} text-center animate-fade-in absolute bottom-10 font-semibold text-xl text-white left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[1000] bg-black py-2 px-4 rounded-lg bg-opacity-70 select-none`}>
             Centra el mapa en el lugar donde se encuentra la perdida
           </p>
         )
