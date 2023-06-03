@@ -8,17 +8,16 @@ const initialState = {
     lng: 0
   },
   lock: false,
-  showCrosshairText: false
+  showCrosshairText: false,
+  showDescriptionInput: false,
+  showFileInput: false,
+  description: ''
 }
 
 export const map = createSlice({
   name: 'map',
   initialState,
   reducers: {
-    showCrosshair: (state) => {
-      state.showCrosshair = true
-      state.showCrosshairText = true
-    },
     hideCrosshairText: (state) => {
       state.showCrosshairText = false
     },
@@ -33,6 +32,31 @@ export const map = createSlice({
     },
     unlock: (state) => {
       state.lock = false
+    },
+    cancelReport: (state) => {
+      state.showCrosshair = false
+      state.center = {
+        lat: 0,
+        lng: 0
+      }
+      state.lock = false
+      state.showCrosshairText = false
+      state.showDescriptionInput = false
+      state.showFileInput = false
+    },
+    startReport: (state) => {
+      state.showCrosshair = true
+      state.showCrosshairText = true
+    },
+    confirmLocation: (state) => {
+      state.showDescriptionInput = true
+      state.lock = true
+      state.showCrosshairText = false
+    },
+    confirmDescription: (state, action) => {
+      state.showFileInput = true
+      state.showDescriptionInput = false
+      state.description = action.payload
     }
   },
 })
@@ -43,6 +67,10 @@ export const {
   setCenter,
   lock,
   unlock,
-  hideCrosshairText
+  hideCrosshairText,
+  cancelReport,
+  startReport,
+  confirmLocation,
+  confirmDescription
 } = map.actions
 export default map.reducer
