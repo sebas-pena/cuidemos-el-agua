@@ -11,7 +11,8 @@ const initialState = {
   showCrosshairText: false,
   showDescriptionInput: false,
   showFileInput: false,
-  description: ''
+  description: '',
+  markers: []
 }
 
 export const map = createSlice({
@@ -57,6 +58,27 @@ export const map = createSlice({
       state.showFileInput = true
       state.showDescriptionInput = false
       state.description = action.payload
+    },
+    sendReport: (state) => {
+      state.showCrosshair = false
+      state.center = {
+        lat: 0,
+        lng: 0
+      }
+      state.lock = false
+      state.showCrosshairText = false
+      state.showDescriptionInput = false
+      state.showFileInput = false
+      state.description = ''
+    },
+    setMarkers: (state, action) => {
+      state.markers = action.payload
+    },
+    addMarker: (state, action) => {
+      state.markers.push(action.payload)
+    },
+    removeMarker: (state, action) => {
+      state.markers = state.markers.filter((marker) => marker.id !== action.payload)
     }
   },
 })
@@ -71,6 +93,10 @@ export const {
   cancelReport,
   startReport,
   confirmLocation,
-  confirmDescription
+  confirmDescription,
+  sendReport,
+  setMarkers,
+  addMarker,
+  removeMarker
 } = map.actions
 export default map.reducer
