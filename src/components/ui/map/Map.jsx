@@ -1,19 +1,18 @@
 'use client'
-import { latLngBounds } from 'leaflet'
-import { latLng } from 'leaflet'
 import React from 'react'
+import L, { latLngBounds, latLng } from 'leaflet'
 import { MapContainer, Marker, Popup, TileLayer, GeoJSON, useMap } from 'react-leaflet'
-import argentinaBrazil from '../../../geojson/argentina-brazil.json'
-import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
+import Image from 'next/image'
+import argentinaBrazil from '../../../geojson/argentina-brazil.json'
 import { setCenter } from '@/store/feature/MapSlice'
+import { showReport } from '@/store/feature/AppSlice'
 
 const UpdateCenter = () => {
   const map = useMap()
   const dispatch = useDispatch()
   map.on('moveend', () => {
     const center = map.getCenter()
-    console.log(center)
     dispatch(setCenter({
       lat: center.lat,
       lng: center.lng
@@ -23,12 +22,18 @@ const UpdateCenter = () => {
 }
 
 const Map = ({ height, showPointer }) => {
+  const dispatch = useDispatch()
   const topRight = latLng(-29.520002, -52.172543)
   const bottomLeft = latLng(-35.3, -59)
   const bounds = latLngBounds(topRight, bottomLeft)
   const mapState = useSelector(state => state.map)
   const showingCrosshair = mapState.showCrosshair
-  const { showCrosshairText, lock } = mapState
+  const { showCrosshairText, lock, markers } = mapState
+
+  const handleShowReport = (report) => {
+    dispatch(showReport(report))
+  }
+
   return (
     <div className='relative'>
       <div className='relative'>
@@ -39,6 +44,7 @@ const Map = ({ height, showPointer }) => {
           scrollWheelZoom={true}
           style={{ height }}
           minZoom={7}
+          zoomControl={false}
           maxBounds={bounds}
         >
           <UpdateCenter />
@@ -46,11 +52,29 @@ const Map = ({ height, showPointer }) => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={[51.505, -0.09]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
+          {
+            markers.map((report, index) => (
+              <Marker
+                key={index}
+                position={[report.location.lat, report.location.lng]}
+                icon={
+                  L.icon({
+                    iconUrl: '/svg/marker.svg',
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 30],
+                    popupAnchor: [0, -30],
+                  })
+                }
+                eventHandlers={
+                  {
+                    click: () => {
+                      handleShowReport(report)
+                    }
+                  }
+                }
+              />
+            ))
+          }
           <GeoJSON data={argentinaBrazil} style={{
             color: '#406099',
             fillOpacity: 0.8,
