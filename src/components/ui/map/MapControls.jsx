@@ -9,9 +9,10 @@ import FileInput from '../input/FileInput'
 
 const MapControls = () => {
   const { showCrosshairText, showDescriptionInput, showFileInput } = useSelector(state => state.map)
+  const { totalReports } = useSelector(state => state.app)
   return (
-    <div className='absolute top-3 right-3 z-[9999999]'>
-      <LeaksCounter count={10} />
+    <div className='absolute top-3 right-3 z-[9999999] w-80'>
+      <LeaksCounter count={totalReports} />
       <ReportButton />
       {
         showCrosshairText && <ConfirmLocationButton />
