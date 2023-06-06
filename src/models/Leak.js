@@ -1,11 +1,32 @@
 import mongoose, { model, Schema } from "mongoose";
 
 const LeakSchema = new Schema({
-  title: String,
-  description: String,
-  date: Date,
-  location: String,
-  image: String,
+  description: {
+    type: String,
+    default: "",
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  image: {
+    type: String,
+  },
+  location: {
+    lat: {
+      type: Number,
+    },
+    lng: {
+      type: Number,
+    },
+  },
+  closedAt: {
+    type: Date,
+    default: null,
+  },
+}, {
+  versionKey: false,
+  timestamps: false
 });
 
 export const Leak = mongoose.models.Leak || model("Leak", LeakSchema);
