@@ -27,7 +27,6 @@ export default function RootLayout({ children }) {
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className={coolvetica.variable + " flex flex-col min-w-screen min-h-screen"}>
-        <Header />
         <ReduxProvider>
           {children}
         </ReduxProvider>
