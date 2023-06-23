@@ -12,15 +12,8 @@ import LocationMarker from './LocationMarker'
 const UpdateCenter = () => {
   const map = useMap()
   const dispatch = useDispatch()
-
   map.on('moveend', () => {
     const center = map.getCenter()
-    //check if the center of the map is inside uruguay
-    map.eachLayer((layer) => {
-      if (layer instanceof L.GeoJSON) {
-        console.log(layer)
-      }
-    })
     dispatch(setCenter({
       lat: center.lat,
       lng: center.lng
