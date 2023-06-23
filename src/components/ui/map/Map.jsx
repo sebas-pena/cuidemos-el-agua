@@ -4,15 +4,23 @@ import L, { latLngBounds, latLng } from 'leaflet'
 import { MapContainer, Marker, Popup, TileLayer, GeoJSON, useMap } from 'react-leaflet'
 import { useDispatch, useSelector } from 'react-redux'
 import Image from 'next/image'
-import argentinaBrazil from '../../../geojson/argentina-brazil.json'
+import uruguay from '../../../geojson/uruguay.json'
 import { setCenter } from '@/store/feature/MapSlice'
 import { showReport } from '@/store/feature/AppSlice'
+import LocationMarker from './LocationMarker'
 
 const UpdateCenter = () => {
   const map = useMap()
   const dispatch = useDispatch()
+
   map.on('moveend', () => {
     const center = map.getCenter()
+    //check if the center of the map is inside uruguay
+    map.eachLayer((layer) => {
+      if (layer instanceof L.GeoJSON) {
+        console.log(layer)
+      }
+    })
     dispatch(setCenter({
       lat: center.lat,
       lng: center.lng
@@ -75,10 +83,21 @@ const Map = ({ height, showPointer }) => {
               />
             ))
           }
-          <GeoJSON data={argentinaBrazil} style={{
-            color: '#406099',
-            fillOpacity: 0.8,
-          }} />
+          <LocationMarker />
+          <GeoJSON
+            data={uruguay}
+            style={{
+              color: '#406099',
+              fillOpacity: 0.6,
+            }}
+            eventHandlers={
+              {
+                click: (event) => {
+                  console.log({ event })
+                }
+              }
+            }
+          />
         </MapContainer >
       </div>
       {
