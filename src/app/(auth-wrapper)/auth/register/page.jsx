@@ -1,4 +1,5 @@
 import RegisterForm from '@/components/ui/form/RegisterForm'
+import SimpleLink from '@/components/ui/link/SimpleLink'
 
 export const metadata = {
   title: 'Registrarse - Cuidemos el Agua',
@@ -11,7 +12,16 @@ const RegisterPage = () => {
       <header className='text-center font-coolvetica text-2xl text-neutral-800 mb-5'>
         <h1>Registrarse</h1>
       </header>
-      <RegisterForm />
+      <div className='pb-5'>
+        <RegisterForm />
+      </div>
+      <p className='text-center'>
+        ¿Ya tienes una cuenta?
+        {' '}
+        <SimpleLink href='/auth/login' paddingX='px-0' paddingY='py-0'>
+          Iniciar sesión
+        </SimpleLink>
+      </p>
     </div>
   )
 }
