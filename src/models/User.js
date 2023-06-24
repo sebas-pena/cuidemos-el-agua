@@ -17,9 +17,12 @@ const UserSchema = new Schema({
   },
   verificationCode: {
     type: String,
+  },
+  emailVerified: {
+    type: Boolean,
     required: true,
   },
-  isVerified: {
+  phoneVerified: {
     type: Boolean,
     required: true,
   },
