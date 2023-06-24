@@ -19,6 +19,6 @@ export const sendVerificationMail = (email, token) => (
     Para completar el proceso de registro, necesitamos que confirmes tu dirección de correo electrónico haciendo clic en el botón de confirmación que aparece a continuación.
     Activar cuenta ${process.env.BASE_URL}/auth/confirm-mail/${token}
     `,
-    html: verificationEmail.replace("{{URL}}", `${process.env.BASE_URL}/auth/confirm/${token}`)
+    html: verificationEmail.replace("{{URL}}", `${process.env.BASE_URL}/auth/confirm-mail?token=${token}`)
   })
 )
