@@ -11,13 +11,16 @@ const LeakSchema = new Schema({
   },
   image: {
     type: String,
+    required: true,
   },
   location: {
     lat: {
       type: Number,
+      required: true,
     },
     lng: {
       type: Number,
+      required: true,
     },
   },
   closedAt: {
