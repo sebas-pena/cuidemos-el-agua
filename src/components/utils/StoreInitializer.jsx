@@ -1,16 +1,36 @@
 'use client'
-import { setTotalReports } from '@/store/feature/AppSlice'
-import { setMarkers } from '@/store/feature/MapSlice'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { usePathname } from 'next/navigation'
+import { setMarkers } from '@/store/feature/MapSlice'
+import { setLeaks, setSolvedLeaks, setSolvedLeaksCounter, setTotalLeaksCounter } from '@/store/feature/LeaksSlice'
+import { login, logout } from '@/store/feature/UserSlice'
 
 const StoreInitializer = () => {
   const dispatch = useDispatch()
+  const pathname = usePathname()
+
   const getMarkers = async () => {
-    const res = await fetch('/api/v1/report')
-    const data = await res.json()
-    dispatch(setMarkers(data))
-    dispatch(setTotalReports(data.length))
+    if (!pathname.startsWith('/auth')) {
+      fetch('/api/v1/auth/me')
+        .then(res => res.json())
+        .then(data => {
+          dispatch(login(data.user))
+        })
+        .catch(() => {
+          dispatch(logout())
+        })
+    }
+
+    fetch('/api/v1/report?solved=true')
+      .then(res => res.json())
+      .then(data => {
+        dispatch(setLeaks(data.unsolvedLeaks))
+        dispatch(setTotalLeaksCounter(data.totalLeaks))
+        dispatch(setSolvedLeaksCounter(data.totalSolvedLeaks))
+        dispatch(setSolvedLeaks(data.solvedLeaks))
+        dispatch(setMarkers(data.unsolvedLeaks))
+      })
   }
 
   useEffect(() => {

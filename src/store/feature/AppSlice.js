@@ -4,7 +4,6 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   showReport: false,
   report: null,
-  totalReports: 0
 }
 
 export const app = createSlice({
@@ -18,12 +17,6 @@ export const app = createSlice({
     hideReport: (state) => {
       state.showReport = false
     },
-    setTotalReports: (state, action) => {
-      state.totalReports = action.payload
-    },
-    increaseTotalReports: (state) => {
-      state.totalReports++
-    }
   },
 
 })
@@ -31,7 +24,5 @@ export const app = createSlice({
 export const {
   showReport,
   hideReport,
-  setTotalReports,
-  increaseTotalReports
 } = app.actions
 export default app.reducer
