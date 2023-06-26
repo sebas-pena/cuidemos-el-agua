@@ -39,10 +39,10 @@ const ErrorConfirmEmail = ({ handleCloseModal, resendEmail, credentials }) => {
 
   return (
     <div className='w-full h-full flex items-center justify-center bg-black/30'>
-      <div className='max-w-2xl text-center'>
-        <CardWrapper padding='px-8 py-7' width="w-full">
+      <div className='max-w-2xl text-center px-4'>
+        <CardWrapper padding='px-5 py-7' width="w-full">
           <div className='relative'>
-            <div className='absolute right-0 translate-x-4 -translate-y-3 top-0'>
+            <div className='absolute right-0 translate-x-3 -translate-y-3 top-0'>
               <CloseButton onClick={handleCloseModal} />
             </div>
             <div className='flex flex-col justify-center items-center gap-2'>
@@ -55,7 +55,7 @@ const ErrorConfirmEmail = ({ handleCloseModal, resendEmail, credentials }) => {
               !resendEmail && (
                 <button
                   type='submit'
-                  className={`text-lg rounded-md h-9 flex justify-center items-center px-4 mt-4 mx-auto text-white font-coolvetica bg-blue-600 active:bg-blue-800 hover:bg-blue-700 duration-300 ${emailSented ? "" : "disabled:bg-blue-400"}`}
+                  className={`text-md rounded-md flex justify-center items-center px-4 py-1 mt-4 mx-auto text-white font-coolvetica bg-blue-600 active:bg-blue-800 hover:bg-blue-700 duration-300 ${emailSented ? "" : "disabled:bg-blue-400"}`}
                   disabled={isLoading || emailSented}
                   onClick={handleResendEmail}
                 >

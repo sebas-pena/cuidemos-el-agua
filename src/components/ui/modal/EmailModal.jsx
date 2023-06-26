@@ -6,10 +6,10 @@ import CloseButton from '../button/CloseButton'
 
 const EmailModal = ({ handleCloseModal, emailProvider }) => {
   return (
-    <div className='w-full h-full flex items-center justify-center bg-black/30'>
+    <div className='w-full h-full flex items-center justify-center bg-black/30 px-4'>
       <CardWrapper padding='px-8 py-7'>
         <div className='relative'>
-          <div className='absolute right-0 translate-x-4 -translate-y-3 top-0'>
+          <div className='absolute right-0 translate-x-5 -translate-y-4 top-0'>
             <CloseButton onClick={handleCloseModal} />
           </div>
           <div className='flex flex-col justify-center items-center gap-2'>

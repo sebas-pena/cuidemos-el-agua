@@ -9,7 +9,7 @@ export const metadata = {
 
 const LoginPage = () => {
   return (
-    <div className='relative flex flex-col items-center justify-center h-screen w-full bg-white/70 py-5 rounded-lg backdrop-blur'>
+    <div className='relative flex flex-col items-center justify-center h-screen w-full bg-white/70 py-5 px-4 rounded-lg backdrop-blur'>
       <header className='text-center font-coolvetica text-2xl text-neutral-800 mb-5'>
         <h1>Iniciar sesión</h1>
       </header>
