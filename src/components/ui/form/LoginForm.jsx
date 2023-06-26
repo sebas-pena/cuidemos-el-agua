@@ -1,11 +1,21 @@
 'use client'
 import React, { useState } from 'react'
 import AuthInput from '../input/AuthInput'
+import Image from 'next/image'
+import ErrorConfirmEmail from '../modal/ErrorConfirmEmail'
+import { useDispatch } from 'react-redux'
+import { login } from '@/store/feature/UserSlice'
+import { useRouter } from 'next/navigation'
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const [inputErrors, setInputErrors] = useState({})
+  const [showSendEmailModal, setShowSendEmailModal] = useState(false)
+  const [credentials, setCredentials] = useState(null)
+
+  const dispatch = useDispatch()
+  const router = useRouter()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -40,15 +50,23 @@ const LoginForm = () => {
         if (res.ok) {
           return data
         } else {
-          const error = new Error(data.message || 'Something went wrong!')
-          throw error
+          throw new Error(data.code)
         }
       })
       .then(data => {
-        console.log(data)
+        const { user } = data
+        dispatch(login(user))
+        router.push('/')
       })
       .catch(err => {
-        setError(err.message)
+        if (err.message === "0") {
+          setError('Correo o contraseña incorrectos')
+        } else if (err.message === "1") {
+          setCredentials({ email: email.value, password: password.value })
+          setShowSendEmailModal(true)
+        } else {
+          setError('Algo salió mal')
+        }
       })
       .finally(() => {
         setIsLoading(false)
@@ -56,32 +74,44 @@ const LoginForm = () => {
   }
 
   return (
-    <form
-      className='relative flex flex-col w-full max-w-lg gap-7 mb-5'
-      onSubmit={handleSubmit}
-    >
-      <AuthInput
-        title='Correo electrónico'
-        error={inputErrors.email}
-        name='email'
-      />
-      <AuthInput
-        title='Contraseña'
-        type='password'
-        error={inputErrors.password}
-        name='password'
-      />
-      <button
-        type='submit'
-        className="text-lg rounded-md py-1 px-4 text-white font-coolvetica bg-blue-600 active:bg-blue-800 hover:bg-blue-700 duration-300 disabled:bg-blue-400 "
-        disabled={isLoading}
+    <>
+      <form
+        className='relative flex flex-col w-full max-w-lg gap-1 mb-5'
+        onSubmit={handleSubmit}
       >
-        Iniciar sesión
-      </button>
+        <AuthInput
+          title='Correo electrónico'
+          error={inputErrors.email}
+          name='email'
+        />
+        <AuthInput
+          title='Contraseña'
+          type='password'
+          error={inputErrors.password}
+          name='password'
+        />
+
+        <button
+          type='submit'
+          className="text-lg rounded-md h-9 flex justify-center items-center px-4 mt-5 text-white font-coolvetica bg-blue-600 active:bg-blue-800 hover:bg-blue-700 duration-300 disabled:bg-blue-400 "
+          disabled={isLoading}
+        >
+          {
+            isLoading ? <Image src='/svg/spinner.svg' alt='loading' width={24} height={24} /> : 'Iniciar Sesión'
+          }
+        </button>
+        {
+          error && <p className='w-full font-semibold absolute top-full text-red-500 text-center'>{error}</p>
+        }
+      </form>
       {
-        error && <p className='w-full font-semibold absolute top-full translate-y-3 text-red-500 text-center'>{error}</p>
+        showSendEmailModal && (
+          <div className='absolute top-0 left-0 w-full h-screen'>
+            <ErrorConfirmEmail credentials={credentials} handleCloseModal={() => setShowSendEmailModal(false)} />
+          </div>
+        )
       }
-    </form>
+    </>
   )
 }
 
