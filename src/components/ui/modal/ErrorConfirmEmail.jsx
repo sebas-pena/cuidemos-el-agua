@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import CardWrapper from '../cards/Wrapper'
 import CloseButton from '../button/CloseButton'
+import ModalWrapper from './ModalWrapper'
 
 const ErrorConfirmEmail = ({ handleCloseModal, resendEmail, credentials }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -38,8 +39,8 @@ const ErrorConfirmEmail = ({ handleCloseModal, resendEmail, credentials }) => {
   }
 
   return (
-    <div className='w-full h-full flex items-center justify-center bg-black/30'>
-      <div className='max-w-2xl text-center px-4'>
+    <ModalWrapper>
+      <div className='max-w-2xl text-center'>
         <CardWrapper padding='px-5 py-7' width="w-full">
           <div className='relative'>
             <div className='absolute right-0 translate-x-3 -translate-y-3 top-0'>
@@ -69,7 +70,7 @@ const ErrorConfirmEmail = ({ handleCloseModal, resendEmail, credentials }) => {
           </div>
         </CardWrapper>
       </div>
-    </div>
+    </ModalWrapper>
   )
 }
 

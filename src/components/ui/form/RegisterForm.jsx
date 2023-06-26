@@ -131,12 +131,10 @@ const RegisterForm = () => {
       </form>
       {
         showSendEmailModal && (
-          <div className='absolute w-full h-screen top-0 left-0'>
-            <EmailModal
-              handleCloseModal={handleCloseModal}
-              emailProvider={emailProvider}
-            />
-          </div>
+          <EmailModal
+            handleCloseModal={handleCloseModal}
+            emailProvider={emailProvider}
+          />
         )
       }
     </>

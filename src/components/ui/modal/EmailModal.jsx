@@ -3,10 +3,11 @@ import React from 'react'
 import CardWrapper from '../cards/Wrapper'
 import ButtonLink from '../link/ButtonLink'
 import CloseButton from '../button/CloseButton'
+import ModalWrapper from './ModalWrapper'
 
 const EmailModal = ({ handleCloseModal, emailProvider }) => {
   return (
-    <div className='w-full h-full flex items-center justify-center bg-black/30 px-4'>
+    <ModalWrapper>
       <CardWrapper padding='px-8 py-7'>
         <div className='relative'>
           <div className='absolute right-0 translate-x-5 -translate-y-4 top-0'>
@@ -21,7 +22,7 @@ const EmailModal = ({ handleCloseModal, emailProvider }) => {
           </div>
         </div>
       </CardWrapper>
-    </div>
+    </ModalWrapper>
   )
 }
 

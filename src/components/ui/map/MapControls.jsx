@@ -11,7 +11,7 @@ import SolvedLeakCounter from '../cards/SolvedLeakCounter'
 const MapControls = () => {
   const { showCrosshairText, showDescriptionInput, showFileInput } = useSelector(state => state.map)
   return (
-    <div className='absolute top-0 left-0 md:top-3 md:left-auto md:right-3 z-[9999999] w-full md:w-80'>
+    <div className='absolute top-0 left-0 md:top-3 md:left-auto md:right-3 z-[702] w-full md:w-80'>
       <div className='flex md:block'>
         <LeaksCounter />
         <SolvedLeakCounter />

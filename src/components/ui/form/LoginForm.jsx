@@ -106,9 +106,7 @@ const LoginForm = () => {
       </form>
       {
         showSendEmailModal && (
-          <div className='absolute top-0 left-0 w-full h-screen'>
-            <ErrorConfirmEmail credentials={credentials} handleCloseModal={() => setShowSendEmailModal(false)} />
-          </div>
+          <ErrorConfirmEmail credentials={credentials} handleCloseModal={() => setShowSendEmailModal(false)} />
         )
       }
     </>

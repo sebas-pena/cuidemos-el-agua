@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   showReport: false,
   report: null,
+  showLoginModal: false,
 }
 
 export const app = createSlice({
@@ -16,7 +17,14 @@ export const app = createSlice({
     },
     hideReport: (state) => {
       state.showReport = false
+      state.report = null
     },
+    showLoginModal: (state) => {
+      state.showLoginModal = true
+    },
+    hideLoginModal: (state) => {
+      state.showLoginModal = false
+    }
   },
 
 })
@@ -24,5 +32,7 @@ export const app = createSlice({
 export const {
   showReport,
   hideReport,
+  showLoginModal,
+  hideLoginModal
 } = app.actions
 export default app.reducer

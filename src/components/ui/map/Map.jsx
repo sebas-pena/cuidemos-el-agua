@@ -7,7 +7,6 @@ import Image from 'next/image'
 import uruguay from '../../../geojson/uruguay.json'
 import { setCenter } from '@/store/feature/MapSlice'
 import { showReport } from '@/store/feature/AppSlice'
-import LocationMarker from './LocationMarker'
 
 const UpdateCenter = () => {
   const map = useMap()
@@ -76,7 +75,6 @@ const Map = ({ height, showPointer }) => {
               />
             ))
           }
-          <LocationMarker />
           <GeoJSON
             data={uruguay}
             style={{
@@ -95,7 +93,7 @@ const Map = ({ height, showPointer }) => {
       </div>
       {
         showingCrosshair && (
-          <Image src='/svg/crosshair.svg' width={20} height={20} alt='Reportar' className={`${showPointer ? 'block' : 'hidden'} animate-fade-in absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[1000]`} />
+          <Image src='/svg/crosshair.svg' width={20} height={20} alt='Reportar' className={`${showPointer ? 'block' : 'hidden'} animate-fade-in absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[701]`} />
         )
       }
       {

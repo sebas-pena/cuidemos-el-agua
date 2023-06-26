@@ -40,7 +40,7 @@ const Header = () => {
         <button onClick={() => setShowMenu(!showMenu)}>
           <Image className='md:hidden' src='/svg/hamburguer.svg' alt='menu hamburguesa' width={30} height={30} />
         </button>
-        <div className={`absolute md:relative top-full md:top-0 w-full md:w-auto md:left-0 ${showMenu ? "left-0" : "left-full"} bg-white left-0  z-[99999999] flex flex-col md:flex-row gap-4 duration-300`}>
+        <div className={`absolute md:relative top-full md:top-0 w-full md:w-auto md:left-0 ${showMenu ? "left-0" : "left-full"} bg-white left-0  z-[710] flex flex-col md:flex-row gap-4 duration-300`}>
           <SimpleLink href='/noticias'>
             Noticias
           </SimpleLink>
