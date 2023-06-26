@@ -23,7 +23,7 @@ const DisplayReport = () => {
         <p className='text-sm font-coolvetica font-semibold text-mine-shaft-600'>
           ID: {report._id}
         </p>
-        <Image src={report.image} width={256} height={256} alt='Reporte' className='h-64 w-64 object-contain rounded-md my-2 bg-[#f5f5f5]' />
+        <Image src={report.image} key={report.image} width={256} height={256} alt='Reporte' className='h-64 w-64 object-contain rounded-md my-2 bg-[#f5f5f5]' />
         <h3 className='text-md font-coolvetica font-semibold text-mine-shaft-600'>
           {parsedDate}
         </h3>
