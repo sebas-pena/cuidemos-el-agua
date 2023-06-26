@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className={coolvetica.variable + " flex flex-col w-screen min-h-screen overflow-x-hidden"}>
+      <body className={coolvetica.variable + " flex flex-col w-screen min-h-[100svh] overflow-x-hidden"}>
         <ReduxProvider>
           {children}
         </ReduxProvider>
