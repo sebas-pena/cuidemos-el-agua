@@ -3,21 +3,54 @@ import { dbConnection } from "@/db"
 import { Leak } from "@/models/Leak"
 import { uploadReport } from "@/utils/server/discord"
 
-export const GET = async (req, res) => {
+export const GET = async (req) => {
+  const { searchParams } = new URL(req.url)
   try {
+
     if (!global.db) {
       await dbConnection()
       global.db = true
     }
-    const leaks = await Leak.find({})
-    return NextResponse.json(leaks, { status: 200 })
+
+    const includeSolved = searchParams.get("solved") === "false" ? false : true
+
+    if (includeSolved) {
+      const leaks = await Leak.find({})
+      const solvedLeaks = []
+      const unsolvedLeaks = []
+
+      for (const leak of leaks) {
+        if (leak.closedAt) {
+          solvedLeaks.push(leak)
+        } else {
+          unsolvedLeaks.push(leak)
+        }
+      }
+
+      return NextResponse.json({
+        solvedLeaks,
+        unsolvedLeaks,
+        totalLeaks: leaks.length,
+        totalSolvedLeaks: solvedLeaks.length,
+      }, { status: 200 })
+
+    } else {
+
+      const leaks = await Leak.find({ closedAt: null })
+      return NextResponse.json({
+        leaks,
+        totalLeaks: leaks.length,
+      }, { status: 200 })
+
+    }
+
   } catch (error) {
     console.log(error)
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 })
   }
 }
 
-export const POST = async (req, res) => {
+export const POST = async (req) => {
   try {
     if (!global.db) {
       await dbConnection()
@@ -60,7 +93,7 @@ export const POST = async (req, res) => {
   }
 }
 
-export const PUT = async (req, res) => {
+export const PUT = async (req) => {
   try {
     if (!global.db) {
       await dbConnection()
