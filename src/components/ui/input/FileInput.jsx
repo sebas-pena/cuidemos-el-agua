@@ -4,8 +4,9 @@ import Image from 'next/image'
 import MapControlButton from '../button/MapControlButton'
 import DeleteButton from '../button/DeleteButton'
 import { useSelector, useDispatch } from 'react-redux'
-import { addMarker, sendReport } from '@/store/feature/MapSlice'
-import { increaseTotalReports } from '@/store/feature/AppSlice'
+import { sendReport } from '@/store/feature/MapSlice'
+import { addLeak, increaseTotalLeaksCounter } from '@/store/feature/LeaksSlice'
+
 const FileInput = () => {
   const [file, setFile] = useState(null)
   const [loading, setLoading] = useState(null)
@@ -35,8 +36,8 @@ const FileInput = () => {
           inputRef.current.value = ''
           setFile(null)
           dispatch(sendReport())
-          dispatch(increaseTotalReports())
-          dispatch(addMarker(data.report))
+          dispatch(increaseTotalLeaksCounter())
+          dispatch(addLeak(data.report))
         })
         .finally(() => {
           setLoading(false)

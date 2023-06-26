@@ -29,8 +29,8 @@ const Map = ({ height, showPointer }) => {
   const bounds = latLngBounds(topRight, bottomLeft)
   const mapState = useSelector(state => state.map)
   const showingCrosshair = mapState.showCrosshair
-  const { showCrosshairText, lock, markers } = mapState
-
+  const { showCrosshairText, lock } = mapState
+  const { leaks } = useSelector(state => state.leaks)
   const handleShowReport = (report) => {
     dispatch(showReport(report))
   }
@@ -54,7 +54,7 @@ const Map = ({ height, showPointer }) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {
-            markers.map((report, index) => (
+            leaks.map((report, index) => (
               <Marker
                 key={index}
                 position={[report.location.lat, report.location.lng]}
