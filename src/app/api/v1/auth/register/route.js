@@ -20,39 +20,47 @@ export const POST = async (req) => {
   const emailRegex = /^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$/
   const phoneRegex = /^0?9\d{7}$/
 
-  let hasErrros = false
+  let hasErrors = false
   const errors = {}
 
   if (!emailRegex.test(email)) {
     errors.email = "email is not valid"
-    hasErrros = true
+    hasErrors = true
   }
 
   if (!phoneRegex.test(phone)) {
     errors.phone = "Phone is not valid"
-    hasErrros = true
+    hasErrors = true
   }
+
+  if (password.length < 8) {
+    errors.password = "Password must be at least 8 characters"
+    hasErrors = true
+  }
+
+  if (hasErrors) return NextResponse.json({ errors, message: "Invalid values" }, { status: 400 })
 
   if (phone.toString().startsWith("0")) {
     phone = phone.toString().substring(1)
   }
 
-  if (password.length < 8) {
-    errors.password = "Password must be at least 8 characters"
-    hasErrros = true
-  }
-
   const usersWithSameCredentials = await User.find({
     '$or': [{ email: email }, { phone: phone }]
   })
+  let isEmailTaken = false
+  usersWithSameCredentials.forEach(user => {
+    if (user.email === email && user.emailVerified) {
+      errors.email = "email already taken "
+      isEmailTaken = true
+      hasErrors = true
+    }
+    if (user.phone === phone && user.phoneVerified) {
+      errors.phone = "phone already taken "
+      hasErrors = true
+    }
+  })
 
-  if (usersWithSameCredentials.length > 0) {
-    errors.email = "email or phone is already taken"
-    errors.phone = "email or phone is already taken"
-    hasErrros = true
-  }
-
-  if (hasErrros) return NextResponse.json({ errors, message: "Invalid values" }, { status: 400 })
+  if (hasErrors) return NextResponse.json({ errors, message: "Invalid values" }, { status: 400 })
 
   const token = createToken({ email })
 
@@ -63,17 +71,21 @@ export const POST = async (req) => {
   }
 
   const hashedPassword = await hashPassword(password)
-  const newUser = new User({
-    email,
-    password: hashedPassword,
-    phone: phone,
-    phoneVerified: false,
-    emailVerified: false
-  })
-
-
   try {
-    await newUser.save()
+    const user = {
+      email,
+      password: hashedPassword,
+      phone: phone,
+      phoneVerified: false,
+      emailVerified: false
+    }
+
+    if (isEmailTaken) {
+      User.findOneAndUpdate(user)
+    } else {
+      await User.create(user)
+    }
+
   } catch (err) {
     console.log(err)
     return NextResponse.json({ message: "Error saving user" }, { status: 500 })
