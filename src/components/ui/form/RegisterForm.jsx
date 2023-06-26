@@ -11,20 +11,13 @@ const RegisterForm = () => {
   const [error, setError] = useState(null)
   const [inputsErrors, setInputsErrors] = useState({})
   const [showSendEmailModal, setShowSendEmailModal] = useState(false)
+  const [emailProvider, setEmailProvider] = useState(null)
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const { email, password, 'confirm-password': confirmPassword, 'phone-number': phoneNumber } = e.target
 
-    console.log({
-      email: email.value,
-      password: password.value,
-      confirmPassword: confirmPassword.value,
-      phoneNumber: phoneNumber.value
-    })
-
     const errorMessage = {}
-
     const emailRegex = /^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$/
     const phoneRegex = /^0?9\d{7}$/
 
@@ -79,7 +72,7 @@ const RegisterForm = () => {
         }
       })
       .then(data => {
-        console.log(data)
+        setEmailProvider(email.value.split('@')[1])
         setShowSendEmailModal(true)
         setError(null)
       })
@@ -139,7 +132,10 @@ const RegisterForm = () => {
       {
         showSendEmailModal && (
           <div className='absolute w-full h-screen top-0 left-0'>
-            <EmailModal handleCloseModal={handleCloseModal} />
+            <EmailModal
+              handleCloseModal={handleCloseModal}
+              emailProvider={emailProvider}
+            />
           </div>
         )
       }
