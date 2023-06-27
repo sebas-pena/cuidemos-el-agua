@@ -37,7 +37,7 @@ const Map = ({ height, showPointer }) => {
   return (
     <div className='relative'>
       <div className='relative'>
-        <div className={`${lock ? 'absolute w-full h-full z-[5000] top-0 left-0' : 'hidden'}`} />
+        <div className={`${lock ? 'absolute w-full h-full z-[701] top-0 left-0' : 'hidden'}`} />
         <MapContainer
           center={[-32.694260, -57.071565]}
           zoom={7}
