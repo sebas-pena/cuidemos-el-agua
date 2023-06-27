@@ -6,6 +6,8 @@ import { hideReport } from '@/store/feature/AppSlice'
 import CardWrapper from './Wrapper'
 import CloseButton from '../button/CloseButton'
 import { formatDate } from '@/utils/client/date'
+import ReportAbuseButton from '../button/ReportAbuseButton'
+import ReportSolvedLeakButton from '../button/ReportSolvedLeakButton'
 
 const DisplayReport = () => {
   const dispatch = useDispatch()
@@ -63,14 +65,17 @@ const DisplayReport = () => {
     >
       <CardWrapper padding={0}>
         <div className='relative w-full p-3'>
-          <CloseButton
-            className='absolute top-1 right-1'
-            onClick={handleClose}
-          />
-          <p className='text-sm font-coolvetica font-semibold text-mine-shaft-600'>
-            ID: {report._id}
-          </p>
-          <Image src={report.image} key={report.image} width={256} height={256} alt='Reporte' className='h-64 w-full object-contain rounded-md my-2 bg-[#f5f5f5]' />
+          <div className='flex justify-between'>
+            <ReportAbuseButton
+              onClick={handleClose}
+              id={report._id}
+              key={report._id + 'abuse_btn'}
+            />
+            <CloseButton
+              onClick={handleClose}
+            />
+          </div>
+          <Image src={report.image} key={report.image + 'image'} width={256} height={256} alt='Reporte' className='h-64 w-full object-contain rounded-md my-2 bg-[#f5f5f5]' />
           <h3 className='text-md font-coolvetica font-semibold text-mine-shaft-600'>
             {parsedDate}
           </h3>
@@ -81,6 +86,10 @@ const DisplayReport = () => {
             {report.description}
           </p>
         </div>
+        <ReportSolvedLeakButton
+          id={report._id}
+          key={report._id + 'solved_btn'}
+        />
       </CardWrapper>
     </div>
   )
