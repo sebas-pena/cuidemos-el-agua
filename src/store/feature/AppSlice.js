@@ -5,6 +5,7 @@ const initialState = {
   showReport: false,
   report: null,
   showLoginModal: false,
+  loginModalText: ''
 }
 
 export const app = createSlice({
@@ -19,8 +20,9 @@ export const app = createSlice({
       state.showReport = false
       state.report = null
     },
-    showLoginModal: (state) => {
+    showLoginModal: (state, action) => {
       state.showLoginModal = true
+      state.loginModalText = action.payload
     },
     hideLoginModal: (state) => {
       state.showLoginModal = false
