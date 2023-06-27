@@ -7,7 +7,7 @@ import ButtonLink from '../link/ButtonLink'
 import { hideLoginModal } from '@/store/feature/AppSlice'
 
 const LoginModal = () => {
-  const { showLoginModal } = useSelector(state => state.app)
+  const { showLoginModal, loginModalText } = useSelector(state => state.app)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(hideLoginModal())
@@ -21,7 +21,7 @@ const LoginModal = () => {
       <CardWrapper padding='px-8 py-7'>
         <div className='font-coolvetica text-center'>
           <p className='text-neutral-700 mb-5'>
-            Para poder enviar un reporte, debes iniciar sesión.
+            {loginModalText}
           </p>
           <ButtonLink href='/auth/login'>
             Iniciar sesión

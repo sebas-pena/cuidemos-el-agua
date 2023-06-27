@@ -13,7 +13,7 @@ const ReportButton = () => {
 
   const handleClick = () => {
     if (loggedIn === false) {
-      dispatch(showLoginModal())
+      dispatch(showLoginModal("Para poder enviar un reporte, debes iniciar sesión."))
       return
     }
     if (showingCrosshair) {
