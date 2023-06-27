@@ -8,7 +8,7 @@ export const metadata = {
 
 const RegisterPage = () => {
   return (
-    <div className='flex flex-col justify-center items-center h-screen bg-white/70 py-5 w-full rounded-lg backdrop-blur'>
+    <div className='flex flex-col justify-center items-center h-[100svh] bg-white/70 py-5 w-full rounded-lg backdrop-blur'>
       <header className='text-center font-coolvetica text-2xl text-neutral-800 mb-5'>
         <h1>Registrarse</h1>
       </header>
