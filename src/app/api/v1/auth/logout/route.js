@@ -23,9 +23,10 @@ export const POST = (req) => {
     const res = NextResponse.json({
       message: "Logged out"
     })
-    res.headers.set('auth-token', null, {
+    res.cookies.set('auth-token', '', {
       maxAge: 0,
-      https: true,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
     })
     return res
   } catch (e) {
