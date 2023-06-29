@@ -12,7 +12,7 @@ const StoreInitializer = () => {
 
   const getMarkers = async () => {
     if (!pathname.startsWith('/auth')) {
-      fetch('/api/v1/auth/me')
+      fetch('/api/v1/user/me')
         .then(res => res.json())
         .then(data => {
           dispatch(login(data.user))
@@ -22,7 +22,7 @@ const StoreInitializer = () => {
         })
     }
 
-    fetch('/api/v1/report?solved=true')
+    fetch('/api/v1/leak?solved=true')
       .then(res => res.json())
       .then(data => {
         dispatch(setLeaks(data.unsolvedLeaks))
