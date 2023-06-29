@@ -27,7 +27,7 @@ const FileInput = () => {
       formData.append('lat', center.lat)
       formData.append('lng', center.lng)
       setLoading(true)
-      fetch('/api/v1/report', {
+      fetch('/api/v1/leak', {
         method: 'POST',
         body: formData,
       })
