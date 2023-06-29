@@ -1,3 +1,4 @@
+import { dbConnection } from "@/db"
 import { User } from "@/models/User"
 import { sendVerificationMail } from "@/utils/server/gmail-client"
 import { createToken } from "@/utils/server/jwt"
@@ -22,7 +23,7 @@ export const POST = async (req) => {
   if (!emailRegex.test(email) || password.length < 8) {
     return BAD_CREDENTIALS_RESPONSE
   }
-
+  await dbConnection()
   const user = await User.findOne({ email })
 
   if (!user) {
