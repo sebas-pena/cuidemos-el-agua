@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ButtonLink from '../ui/link/ButtonLink'
 import SimpleLink from '../ui/link/SimpleLink'
@@ -12,6 +12,19 @@ const Header = () => {
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".navbar-btn") && !e.target.closest(".navbar") && window.innerWidth < 768) {
+        setShowMenu(false)
+      }
+    }
+    window.addEventListener('click', handleClickOutside)
+    return () => {
+      window.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
+
   const handleLogout = () => {
     setIsLoading(true)
     fetch('/api/v1/auth/logout', {
@@ -33,14 +46,19 @@ const Header = () => {
           <span className='font-coolvetica font-semibold text-3xl text-[#406099]'>
             Cuidemos el Agua
           </span>
-          <Image src='/svg/logo-ceibal.svg' alt='logo ceibal' width={26} height={26} />
         </h1>
       </Link>
       <div className='flex gap-4'>
-        <button onClick={() => setShowMenu(!showMenu)}>
+        <button className='navbar-btn' onClick={() => setShowMenu(!showMenu)}>
           <Image className='md:hidden' src='/svg/hamburguer.svg' alt='menu hamburguesa' width={30} height={30} />
         </button>
-        <div className={`absolute md:relative top-full md:top-0 w-full md:w-auto md:left-0 ${showMenu ? "left-0" : "left-full"} bg-white left-0  z-[710] flex flex-col md:flex-row gap-4 duration-300`}>
+        <div className={`navbar absolute md:relative top-full md:top-0 w-full md:w-auto md:left-0 ${showMenu ? "left-0" : "left-full"} bg-white left-0  z-[710] flex flex-col md:flex-row gap-4 duration-300`}>
+          {
+            user.role === 'admin' &&
+            <SimpleLink href='/admin'>
+              Admin
+            </SimpleLink>
+          }
           <SimpleLink href='/noticias'>
             Noticias
           </SimpleLink>
