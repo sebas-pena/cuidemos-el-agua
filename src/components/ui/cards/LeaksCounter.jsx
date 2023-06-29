@@ -5,7 +5,7 @@ import CardWrapper from './Wrapper'
 import { useSelector } from 'react-redux'
 
 const LeaksCounter = () => {
-  const { totalLeaksCounter } = useSelector(state => state.leaks)
+  const { totalLeaksCounter, solvedLeaksCounter } = useSelector(state => state.leaks)
   return (
     <CardWrapper
       hideShadownMobile
@@ -17,12 +17,12 @@ const LeaksCounter = () => {
         <Image src='/svg/leak.svg' alt='icono de perdida de agua' width={45} height={45} />
         <div className='flex flex-col'>
           <h2 className='text-sm md:text-lg font-coolvetica font-semibold text-mine-shaft-600'>
-            Perdidas Reportadas
+            Perdidas Abiertas
           </h2>
           {
             totalLeaksCounter === null
               ? <Image src='/svg/spinner-black.svg' alt='loading' className='mx-auto py-[4px]' width={24} height={24} />
-              : <span className='text-2xl font-coolvetica font-semibold text-mine-shaft-600 text-center'>{totalLeaksCounter}</span>
+              : <span className='text-2xl font-coolvetica font-semibold text-mine-shaft-600 text-center'>{totalLeaksCounter - solvedLeaksCounter}</span>
           }
         </div>
       </div>
