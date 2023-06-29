@@ -1,3 +1,4 @@
+import { dbConnection } from "@/db"
 import { User } from "@/models/User"
 import { createToken } from "@/utils/server/jwt"
 import { comparePassword } from "@/utils/server/password"
@@ -20,6 +21,8 @@ export const POST = async (req) => {
     return BAD_CREDENTIALS_RESPONSE
   }
 
+  await dbConnection()
+
   const user = await User.findOne({ email })
 
   if (!user) {
@@ -41,24 +44,24 @@ export const POST = async (req) => {
     )
   }
 
+  const userWithoutPassword = {
+    email: user.email,
+    emailVerified: user.emailVerified,
+    phone: user.phone,
+    phoneVerified: user.phoneVerified,
+    id: user._id,
+    role: user.role,
+    banned: user.banned,
+  }
+
   const res = NextResponse.json({
-    user: {
-      email: user.email,
-      emailVerified: user.emailVerified,
-      phone: user.phone,
-      phoneVerified: user.phoneVerified,
-    },
+    user: userWithoutPassword,
     message: "Logged in"
   },
     { status: 200 }
   )
 
-  const token = createToken({
-    email: user.email,
-    emailVerified: user.emailVerified,
-    phone: user.phone,
-    phoneVerified: user.phoneVerified,
-  })
+  const token = createToken(userWithoutPassword)
 
   res.cookies.set("auth-token", token, {
     httpOnly: true,
