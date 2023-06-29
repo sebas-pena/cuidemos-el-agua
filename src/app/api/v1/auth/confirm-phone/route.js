@@ -5,10 +5,7 @@ import { User } from "@/models/User"
 import { verifyToken } from "@/utils/server/jwt"
 
 export const POST = async (req) => {
-  if (!global.db) {
-    await dbConnection()
-    global.db = true
-  }
+  await dbConnection()
   const cookiesList = cookies()
   const token = cookiesList.get("auth-token")
   const { verificationCode } = await req.json()

@@ -5,10 +5,7 @@ import { User } from "@/models/User"
 import { verifyToken } from "@/utils/server/jwt"
 
 export const POST = async (req) => {
-  if (!global.db) {
-    await dbConnection()
-    global.db = true
-  }
+  await dbConnection()
   const headersList = headers()
   const token = headersList.get("authorization").split(" ")[1]
 

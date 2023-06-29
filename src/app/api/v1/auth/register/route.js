@@ -7,10 +7,7 @@ import { hashPassword } from "@/utils/server/password"
 
 export const POST = async (req) => {
 
-  if (!global.db) {
-    await dbConnection()
-    global.db = true
-  }
+  await dbConnection()
 
   const body = await req.json()
   let { email, password, phone } = body
