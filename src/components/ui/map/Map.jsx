@@ -1,12 +1,13 @@
 'use client'
-import React from 'react'
-import L, { latLngBounds, latLng } from 'leaflet'
-import { MapContainer, Marker, Popup, TileLayer, GeoJSON, useMap } from 'react-leaflet'
+import React, { useEffect } from 'react'
+import { latLngBounds, latLng } from 'leaflet'
+import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet'
 import { useDispatch, useSelector } from 'react-redux'
 import Image from 'next/image'
 import uruguay from '../../../geojson/uruguay.json'
 import { setCenter } from '@/store/feature/MapSlice'
-import { showReport } from '@/store/feature/AppSlice'
+import LeakMarker from './LeakMarker'
+import { hideLeak } from '@/store/feature/LeaksSlice'
 
 const UpdateCenter = () => {
   const map = useMap()
@@ -29,10 +30,11 @@ const Map = ({ height, showPointer }) => {
   const mapState = useSelector(state => state.map)
   const showingCrosshair = mapState.showCrosshair
   const { showCrosshairText, lock } = mapState
-  const { leaks } = useSelector(state => state.leaks)
-  const handleShowReport = (report) => {
-    dispatch(showReport(report))
-  }
+  const { leaks, solvedLeaks } = useSelector(state => state.leaks)
+
+  useEffect(() => {
+    dispatch(hideLeak())
+  }, [])
 
   return (
     <div className='relative'>
@@ -53,25 +55,24 @@ const Map = ({ height, showPointer }) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {
-            leaks.map((report, index) => (
-              <Marker
-                key={index}
-                position={[report.location.lat, report.location.lng]}
-                icon={
-                  L.icon({
-                    iconUrl: '/svg/marker.svg',
-                    iconSize: [30, 30],
-                    iconAnchor: [15, 30],
-                    popupAnchor: [0, -30],
-                  })
-                }
-                eventHandlers={
-                  {
-                    click: () => {
-                      handleShowReport(report)
-                    }
-                  }
-                }
+            leaks.map((report) => (
+              <LeakMarker
+                key={report._id}
+                lat={report.location.lat}
+                lng={report.location.lng}
+                id={report._id}
+                closedAt={report.closedAt}
+              />
+            ))
+          }
+          {
+            solvedLeaks.map((report) => (
+              <LeakMarker
+                key={report._id}
+                lat={report.location.lat}
+                lng={report.location.lng}
+                id={report._id}
+                closedAt={report.closedAt}
               />
             ))
           }
