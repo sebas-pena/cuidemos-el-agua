@@ -5,6 +5,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
     unique: true,
+    index: true,
   },
   password: {
     type: String,
@@ -14,6 +15,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
     unique: true,
+    index: true,
   },
   verificationCode: {
     type: String,
@@ -25,6 +27,15 @@ const UserSchema = new Schema({
   phoneVerified: {
     type: Boolean,
     required: true,
+  },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
+  banned: {
+    type: Boolean,
+    default: false,
   },
 }, {
   versionKey: false,
