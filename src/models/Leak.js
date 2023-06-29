@@ -23,6 +23,22 @@ const LeakSchema = new Schema({
       required: true,
     },
   },
+  reportedBy: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    index: true,
+  },
+  reports: {
+    inappropriate: [{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    }],
+    false: [{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    }],
+  },
   closedAt: {
     type: Date,
     default: null,
