@@ -7,6 +7,8 @@ const initialState = {
   phone: '',
   phoneVerified: false,
   emailVerified: false,
+  id: '',
+  role: '',
 }
 
 export const user = createSlice({
@@ -14,12 +16,14 @@ export const user = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      const { email, phone, phoneVerified, emailVerified } = action.payload
+      const { email, phone, phoneVerified, emailVerified, id, role } = action.payload
       state.loggedIn = true
       state.email = email
       state.phone = phone
       state.phoneVerified = phoneVerified
       state.emailVerified = emailVerified
+      state.id = id
+      state.role = role
     },
     logout: () => {
       return {
@@ -28,6 +32,8 @@ export const user = createSlice({
         phone: '',
         phoneVerified: false,
         emailVerified: false,
+        id: '',
+        role: '',
       }
     }
   },
