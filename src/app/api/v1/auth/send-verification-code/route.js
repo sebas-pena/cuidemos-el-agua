@@ -2,52 +2,37 @@ import { NextResponse } from "next/server";
 import { User } from "@/models/User";
 import { comparePassword } from "@/utils/server/password";
 import { sendVerificationMail } from "@/utils/server/gmail-client";
+import { dbConnection } from "@/db";
 
 export const POST = async (req) => {
-  if (!global.db) {
-    await dbConnection()
-    global.db = true
-  }
 
   const { email, password } = await req.json()
-
   const emailRegex = /^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$/
 
+  const BAD_CREDENTIALS_RESPONSE = NextResponse.json(
+    {
+      message: "Bad credentials",
+      code: 0
+    }
+    ,
+    { status: 401 }
+  )
+
   if (!emailRegex.test(email) || password.length < 8) {
-    return NextResponse.json(
-      {
-        message: "Bad credentials",
-        code: 0
-      }
-      ,
-      { status: 401 }
-    )
+    return BAD_CREDENTIALS_RESPONSE
   }
 
+  await dbConnection()
   const user = await User.findOne({ email })
 
   if (!user) {
-    return NextResponse.json(
-      {
-        message: "Bad credentials",
-        code: 0
-      }
-      ,
-      { status: 401 }
-    )
+    return BAD_CREDENTIALS_RESPONSE
   }
 
   const isPasswordValid = await comparePassword(password, user.password)
 
   if (!isPasswordValid) {
-    return NextResponse.json(
-      {
-        message: "Bad credentials",
-        code: 0
-      }
-      ,
-      { status: 401 }
-    )
+    return BAD_CREDENTIALS_RESPONSE
   }
 
   if (user.emailVerified) {
