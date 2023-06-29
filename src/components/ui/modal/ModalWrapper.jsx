@@ -8,7 +8,7 @@ const ModalWrapper = ({ children, handleClose }) => {
     }
   }
   return (
-    <div className='absolute w-full h-[100svh] top-0 left-0 z-[800]'>
+    <div className='absolute w-full h-[100svh] top-0 left-0 z-[1001]'>
       <div
         onClick={handleClickOutside}
         className='modal-wrapper w-full h-full flex items-center justify-center bg-black/30 px-4'
