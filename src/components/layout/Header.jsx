@@ -39,7 +39,7 @@ const Header = () => {
       })
   }
   return (
-    <header className='relative w-full flex justify-between items-center px-4 bg-white h-16 border-b border-neutral-300'>
+    <header className='relative flex justify-between items-center px-4 bg-white h-16 border-b border-neutral-300'>
       <Link href="/">
         <h1 className='inline-flex gap-2 items-center'>
           <Image src='/svg/logo.svg' alt='logo de cuidemos el agua' width={30} height={30} />
