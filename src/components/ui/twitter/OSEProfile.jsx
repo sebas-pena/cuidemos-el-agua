@@ -9,6 +9,7 @@ const OSEProfile = () => {
     document.head.appendChild(s);
   }, [])
 
+  if (typeof window === 'undefined') return null
   const screenWidth = window.innerWidth
   let embedWidth = 550
 
