@@ -9,8 +9,11 @@ const LeakSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  image: {
-    type: String,
+  file: {
+    type: {
+      url: String,
+      contentType: String,
+    },
     required: true,
   },
   location: {
@@ -22,6 +25,18 @@ const LeakSchema = new Schema({
       type: Number,
       required: true,
     },
+    suburb: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    }
   },
   reportedBy: {
     type: Schema.Types.ObjectId,

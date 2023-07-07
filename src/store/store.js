@@ -4,6 +4,7 @@ import mapReducer from './feature/MapSlice'
 import appReducer from './feature/AppSlice'
 import userReducer from './feature/UserSlice'
 import leaksReducer from './feature/LeaksSlice'
+import adminReducer from './feature/AdminSlice'
 
 export const store = configureStore({
   reducer: {
@@ -11,5 +12,6 @@ export const store = configureStore({
     app: appReducer,
     user: userReducer,
     leaks: leaksReducer,
+    admin: adminReducer,
   },
 })
