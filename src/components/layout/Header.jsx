@@ -59,6 +59,15 @@ const Header = () => {
               Admin
             </SimpleLink>
           }
+          {
+            user.role === 'team-member' &&
+            <SimpleLink href='/team'>
+              Equipo
+            </SimpleLink>
+          }
+          <SimpleLink href='/dashboard'>
+            Informes
+          </SimpleLink>
           <SimpleLink href='/noticias'>
             Noticias
           </SimpleLink>
