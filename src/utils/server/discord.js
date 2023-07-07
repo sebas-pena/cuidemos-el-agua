@@ -2,12 +2,12 @@ import formData from "form-data"
 
 export const uploadReport = async ({
   location,
-  image,
+  file,
   description,
   filename,
   contentType
 }) => {
-  let buffer = await image.arrayBuffer()
+  let buffer = await file.arrayBuffer()
   buffer = Buffer.from(buffer)
   const form = new formData()
   const message = `**Nuevo Reporte**\n\n**Descripción:** ${description}\n**Latitud:** ${location.lat}\n**Longitud:** ${location.lng}`
