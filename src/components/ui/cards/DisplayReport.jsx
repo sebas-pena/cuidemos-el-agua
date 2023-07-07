@@ -80,7 +80,11 @@ const DisplayReport = () => {
               onClick={handleClose}
             />
           </div>
-          <Image src={leakOnDisplay.image} key={leakOnDisplay.image + 'image'} width={256} height={256} alt='Reporte' className='h-64 w-full object-contain rounded-md my-2 bg-[#f5f5f5]' />
+          {
+            leakOnDisplay.file.contentType.includes('video')
+              ? <video src={leakOnDisplay.file.url} key={leakOnDisplay.file.url + 'video'} controls className='h-64 w-full object-contain rounded-md my-2 bg-[#f5f5f5]' />
+              : <Image src={leakOnDisplay.file.url} key={leakOnDisplay.file.url + 'image'} width={256} height={256} alt='Reporte' className='h-64 w-full object-contain rounded-md my-2 bg-[#f5f5f5]' />
+          }
           <h3 className='text-md font-coolvetica font-semibold text-mine-shaft-600'>
             {parsedDate}
           </h3>
