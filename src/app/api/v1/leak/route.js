@@ -4,10 +4,12 @@ import { Leak } from "@/models/Leak"
 import { uploadReport } from "@/utils/server/discord"
 import { User } from "@/models/User"
 import { ErrorResponse } from "@/utils/server/http-errors"
+import { locate } from "@/utils/server/locate"
 
 
 export const GET = async (req) => {
   const { searchParams } = new URL(req.url)
+
   try {
     await dbConnection()
     const includeSolved = searchParams.get("solved") === "false" ? false : true
@@ -66,36 +68,46 @@ export const POST = async (req) => {
     }
 
     const form = await req.formData()
-    const image = form.get("file")
+    const file = form.get("file")
     const description = form.get("description")
+
+    const lat = parseFloat(form.get("lat"))
+    const lng = parseFloat(form.get("lng"))
+
+    const locationData = await locate(lat, lng)
     const location = {
-      lat: parseFloat(form.get("lat")),
-      lng: parseFloat(form.get("lng")),
+      lat,
+      lng,
+      ...locationData
     }
+
     const leak = new Leak({
       description,
       location,
-      image,
       reportedBy: uid,
       reports: {
         inappropriate: [],
         fake: []
       }
     })
-    const format = image.name.split(".").pop()
+
+    const format = file.name.split(".").pop()
     const result = await uploadReport({
       location,
-      image,
+      file,
       description,
       filename: `${leak._id}.${format}`,
-      contentType: image.type,
+      contentType: file.type,
     })
 
     if (result.status !== 200) {
       return ErrorResponse(0)
     } else {
-      const imageUrl = (await result.json()).attachments[0].url
-      leak.image = imageUrl
+      const fileUrl = (await result.json()).attachments[0].url
+      leak.file = {
+        url: fileUrl,
+        contentType: file.type,
+      }
       await leak.save()
     }
     return NextResponse.json({
